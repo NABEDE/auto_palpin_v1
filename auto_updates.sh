@@ -31,6 +31,9 @@ echo "Nettoyage des logs terminé."
 
 # 5. Vérifier le statut du CPU
 CPU_LOAD=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}')
+if [ $(echo "$CPU_LOAD > 80" | bc) -eq 1 ]; then
+    echo "Alerte : Charge CPU élevée ($CPU_LOAD%)"
+fi
 echo "Charge CPU actuelle : $CPU_LOAD%" >> /var/log/system_monitor.log
 
 echo "Automatisation terminée à $(date)" >> /var/log/system_monitor.log
