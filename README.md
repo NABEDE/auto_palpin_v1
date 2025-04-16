@@ -16,8 +16,12 @@ Ce script bash automatise diverses tâches de maintenance système et opération
 - Privilèges administrateur (sudo)
 - Commande `bc` pour les calculs à virgule flottante
 
-## Configuration
+## Étapes pour mettre en place l'automatisation
+- Téléchargez le fichier bash ou soit tout le dépôt git avec le contenu
+- Navigez jusqu'au fichier "auto_updates.sh"
+- Assurez vous que la commande "bash" fonctionne dans votre terminal
+- Tapez "bash auto_updates.sh"
+- Ou soit tapez "chmod +x auto_updates.sh"
+- Ensuite tapez "./auto_updates.sh"
+- Éh bingo, vous aurez l'automatisation des mises à jour en place
 
-Modifiez les variables suivantes dans le script selon vos besoins :
-
-```bash
