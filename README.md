@@ -12,7 +12,7 @@ Ce script bash automatise diverses tâches de maintenance système et opération
 
 ## Prérequis
 
-- Un système d'exploitation de type Unix (Debian/Ubuntu)
+- Un système d'exploitation de type Unix (Debian/Ubuntu/CentOS)
 - Privilèges administrateur (sudo)
 - Commande `bc` pour les calculs à virgule flottante
 
