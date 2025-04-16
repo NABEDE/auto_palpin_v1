@@ -17,7 +17,7 @@ Ce script bash automatise diverses tâches de maintenance système et opération
 - Commande `bc` pour les calculs à virgule flottante
 
 ## Étapes pour mettre en place l'automatisation
-- Téléchargez le fichier bash ou soit tout le dépôt git avec le contenu
+- Téléchargez le fichier "auto_updates.sh" ou soit tout le dépôt git avec le contenu
 - Navigez jusqu'au fichier "auto_updates.sh"
 - Assurez vous que la commande "bash" fonctionne dans votre terminal
 - Tapez "bash auto_updates.sh"
