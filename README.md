@@ -1,7 +1,6 @@
 # Script d'Automatisation Système
 
-Ce script bash automatise diverses tâches de maintenance système et opérations de surveillance, avec envoi de notifications par email pour les événements et alertes importantes.
-
+Ce script bash automatise diverses tâches de maintenance système et opérations de surveillance.
 ## Fonctionnalités
 
 - Automatisation des mises à jour système (pour les systèmes Debian/Ubuntu ou les systèmes qui sont basé sur ça)
