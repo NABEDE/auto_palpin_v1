@@ -13,7 +13,6 @@ Ce script bash automatise diverses tâches de maintenance système et opération
 ## Prérequis
 
 - Un système d'exploitation de type Unix (Debian/Ubuntu)
-- Commande `mail` configurée
 - Privilèges administrateur (sudo)
 - Commande `bc` pour les calculs à virgule flottante
 
@@ -22,7 +21,3 @@ Ce script bash automatise diverses tâches de maintenance système et opération
 Modifiez les variables suivantes dans le script selon vos besoins :
 
 ```bash
-EMAIL="votre@email.com"
-LOG_DIR="/var/log"
-THRESHOLD_SPACE=90  # Seuil critique d'espace disque (%)
-THRESHOLD_MEMORY=80 # Seuil critique d'utilisation mémoire (%)
