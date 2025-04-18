@@ -9,10 +9,10 @@ echo -e "\e[35m===========================================\e[0m"
 echo -e "\e[35m🤖 Hello ! Bienvenue sur votre assistant autopalpine Version 1.0 \e[0m"
 echo -e "\e[35mPour l'automatisation des mises à jour de votre système Alpine\e[0m"
 echo -e "\e[35m===========================================\e[0m"
-read -p "Vous voulez que l'installation des mises à jour commence ? Tapez Y pour Yes et N pour No: " response
+read -p "Vous voulez que l'installation des mises à jour commence ? Tapez O pour Oui et N pour Non: " response
 
 # Vérification de la réponse
-if [ "$response" == "Y" ] || [ "$response" == "y" ]; then
+if [ "$response" == "O" ] || [ "$response" == "o" ]; then
     echo -e "\e[33mMise à jour du système en cours...\e[0m"
     apk update > /dev/null 2>&1
     if [ $? -eq 0 ]; then
