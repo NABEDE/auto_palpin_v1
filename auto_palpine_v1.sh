@@ -4,8 +4,12 @@
 THRESHOLD_MEMORY=80  # Seuil critique de la mémoire (en pourcentage)
 THRESHOLD_SPACE=80  # Seuil critique d'espace disque (en pourcentage)
 
-# 1. Mettre à jour le système (exemple pour Debian/Ubuntu)
-echo -e "\e[35m
+# 1. Mettre à jour le système (exemple pour Alpine)
+echo -e "\e[35m===========================================\e[0m"
+echo -e "\e[35m🤖 Hello ! Bienvenue dans ton assistant Bash\e[0m"
+echo -e "\e[35m===========================================\e[0m"
+read -p "Vous voulez que l'installation des mises à jour commence ? Tapez Y pour Yes et N pour No" response
+if [$response -eq 
 echo -e "\e[33mMise à jour du système en cours...\e[0m"
 apk update > /dev/null 2>&1
 if [ $? -eq 0 ]; then
