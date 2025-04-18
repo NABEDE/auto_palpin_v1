@@ -25,5 +25,5 @@ Ce script bash automatise diverses tâches de maintenance notament la mise à jo
 - Ensuite tapez "./autopalpine-v1.sh"
 - Éh bingo, vous aurez l'automatisation des mises à jour en place
 
-##Attention est écrit en Franglais (Anglais et Français)
+## Attention est écrit en Franglais (Anglais et Français)
 
