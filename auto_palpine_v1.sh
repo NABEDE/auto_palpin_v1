@@ -8,41 +8,23 @@ THRESHOLD_SPACE=80  # Seuil critique d'espace disque (en pourcentage)
 echo -e "\e[35m===========================================\e[0m"
 echo -e "\e[35m🤖 Hello ! Bienvenue dans ton assistant Bash\e[0m"
 echo -e "\e[35m===========================================\e[0m"
-read -p "Vous voulez que l'installation des mises à jour commence ? Tapez Y pour Yes et N pour No" response
-if [$response -eq 
-echo -e "\e[33mMise à jour du système en cours...\e[0m"
-apk update > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-    echo -e "\e[33mMises à jour disponibles. Lancement de l'upgrade...\e[0m"
-    apk upgrade -y > /dev/null 2>&1
-    echo -e "\e[32mMises à jour terminées avec succès.\e[0m"
+read -p "Vous voulez que l'installation des mises à jour commence ? Tapez Y pour Yes et N pour No: " response
+
+# Vérification de la réponse
+if [ "$response" == "Y" ] || [ "$response" == "y" ]; then
+    echo -e "\e[33mMise à jour du système en cours...\e[0m"
+    apk update > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo -e "\e[33mMises à jour disponibles. Lancement de l'upgrade...\e[0m"
+        apk upgrade -y > /dev/null 2>&1
+        echo -e "\e[32mMises à jour terminées avec succès.\e[0m"
+    else
+        echo -e "\e[31mÉchec de la mise à jour. Vérifiez les erreurs.\e[0m"
+    fi
+elif [ "$response" == "N" ] || [ "$response" == "n" ]; then
+    echo -e "\e[31mMise à jour annulée.\e[0m"
+    exit 0
 else
-    echo -e "\e[31mÉchec de la mise à jour. Vérifiez les erreurs.\e[0m"
+    echo -e "\e[31mRéponse non valide. Veuillez taper Y ou N.\e[0m"
+    exit 1
 fi
-
-# 2. Vérifier l'espace disque
-DISK_USAGE=$(df -h / | tail -n 1 | awk '{print $5}' | cut -d'%' -f1)
-if [ $DISK_USAGE -ge $THRESHOLD_SPACE ]; then
-    echo -e "\e[31mAlerte : Espace disque critique ($DISK_USAGE%) sur /\e[0m"
-fi
-
-# 3. Vérifier l'utilisation de la mémoire
-MEMORY_USAGE=$(free | grep "Mem:" | awk '{print $3/$2 * 100.0}')
-if (( $(echo "$MEMORY_USAGE > $THRESHOLD_MEMORY" | bc) )); then
-    echo -e "\e[31mAlerte : Utilisation mémoire critique ($MEMORY_USAGE%)\e[0m"
-fi
-
-# 4. Nettoyer les anciens logs
-echo -e "\e[33mNettoyage des anciens logs...\e[0m"
-find $LOG_DIR -type f -name "*.log" -mtime +30 -exec gzip {} \; 2>/dev/null
-find $LOG_DIR -type f -name "*.gz" -mtime +90 -exec rm {} \; 2>/dev/null
-echo -e "\e[32mNettoyage des logs terminé.\e[0m"
-
-# 5. Vérifier le statut du CPU
-CPU_LOAD=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}')
-if [ $(echo "$CPU_LOAD > 80" | bc) -eq 1 ]; then
-    echo -e "\e[31mAlerte : Charge CPU élevée ($CPU_LOAD%)\e[0m"
-fi
-echo -e "\e[33mCharge CPU actuelle : $CPU_LOAD%\e[0m" >> /var/log/system_monitor.log
-
-echo -e "\e[32mAutomatisation terminée à $(date)\e[0m" >> /var/log/system_monitor.log
