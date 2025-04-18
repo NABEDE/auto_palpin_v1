@@ -6,7 +6,7 @@ THRESHOLD_SPACE=80  # Seuil critique d'espace disque (en pourcentage)
 
 # 1. Mettre à jour le système (exemple pour Alpine)
 echo -e "\e[35m===========================================\e[0m"
-echo -e "\e[35m🤖 Hello ! Bienvenue sur votre assistant autopalpine\e[0m"
+echo -e "\e[35m🤖 Hello ! Bienvenue sur votre assistant autopalpine Version 1.0 \e[0m"
 echo -e "\e[35mPour l'automatisation des mises à jour de votre système Alpine\e[0m"
 echo -e "\e[35m===========================================\e[0m"
 read -p "Vous voulez que l'installation des mises à jour commence ? Tapez Y pour Yes et N pour No: " response
