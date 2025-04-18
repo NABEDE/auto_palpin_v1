@@ -5,6 +5,7 @@ THRESHOLD_MEMORY=80  # Seuil critique de la mémoire (en pourcentage)
 THRESHOLD_SPACE=80  # Seuil critique d'espace disque (en pourcentage)
 
 # 1. Mettre à jour le système (exemple pour Debian/Ubuntu)
+echo -e "\e[35m
 echo -e "\e[33mMise à jour du système en cours...\e[0m"
 apk update > /dev/null 2>&1
 if [ $? -eq 0 ]; then
