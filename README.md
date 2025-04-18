@@ -23,7 +23,5 @@ Ce script bash automatise diverses tâches de maintenance notament la mise à jo
 - Tapez "bash auto_palpine.sh"
 - Ou soit tapez "chmod +x autopalpine-v1.sh"
 - Ensuite tapez "./autopalpine-v1.sh"
-- Éh bingo, vous aurez l'automatisation des mises à jour en place
-
-## Attention L'assistant est conçu dans la langue Franglaise (Français + Anglais)
+- Vous avez votre automatisation de mise à jour clair.
 
