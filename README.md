@@ -17,11 +17,11 @@ Ce script bash automatise diverses tâches de maintenance notament la mise à jo
 - Sous le privilège sudo
 
 ## Étapes pour mettre en place l'automatisation
-- Téléchargez le fichier "auto_palpine.sh" ou soit tout le dépôt git avec le contenu
-- Navigez jusqu'au fichier "auto_palpine.sh"
+- Téléchargez le fichier "autopalpine-v1.sh" ou soit tout le dépôt git avec le contenu
+- Navigez jusqu'au fichier "autopalpine-v1.sh"
 - Assurez vous que la commande "bash" fonctionne dans votre terminal
 - Tapez "bash auto_palpine.sh"
-- Ou soit tapez "chmod +x auto_palpine.sh"
-- Ensuite tapez "./auto_palpine.sh"
+- Ou soit tapez "chmod +x autopalpine-v1.sh"
+- Ensuite tapez "./autopalpine-v1.sh"
 - Éh bingo, vous aurez l'automatisation des mises à jour en place
 
