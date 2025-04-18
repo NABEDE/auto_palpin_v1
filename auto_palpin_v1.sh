@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 1. Mettre à jour le système (exemple pour Debian/Ubuntu)
-echo "Mise à jour du système en cours..."
-sudo apt update > /dev/null 2>&1
+echo -e "\e[32mMise à jour du système en cours...\e[0m"
+apk update > /dev/null 2>&1
 if [ $? -eq 0 ]; then
     echo "Mises à jour disponibles. Lancement de l'upgrade..."
     sudo apt upgrade -y > /dev/null 2>&1
