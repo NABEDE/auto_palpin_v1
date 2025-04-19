@@ -15,7 +15,7 @@ echo "2. Ubuntu"
 echo "3. Debian"
 echo "4. CentOS"
 read -p "Choisissez un numéro :" number
-if [ "$number" == "1"]; then
+if [ "$number" == "1" ]; then
     read -p "𝐕𝐨𝐮𝐬 voulez que l'installation 𝐝𝐞𝐬 𝐦𝐢𝐬𝐞𝐬 𝐚̀ 𝐣𝐨𝐮𝐫 𝐜𝐨𝐦𝐦𝐞𝐧𝐜𝐞 ? Tapez 𝐎 pour 𝐎𝐮𝐢 et 𝐍 pour 𝐍𝐨𝐧 : " response
     
     # Vérification de la réponse
