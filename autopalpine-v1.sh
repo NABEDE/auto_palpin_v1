@@ -36,9 +36,6 @@ detect_os() {
 # Détection du système actuel
 system_detected=$(detect_os)
 
-# Appel de la fonction
-get_system_info
-
 # 1. Mettre à jour le système (exemple pour Alpine)
 echo -e "\e[35m===========================================\e[0m"
 echo -e "\e[35m🤖 𝐇𝐞𝐥𝐥𝐨 ! 𝐁𝐢𝐞𝐧𝐯𝐞𝐧𝐮𝐞 𝐬𝐮𝐫 𝐯𝐨𝐭𝐫𝐞 𝐚𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭 𝐚𝐮𝐭𝐨𝐩𝐚𝐥𝐩𝐢𝐧𝐞 𝐕𝐞𝐫𝐬𝐢𝐨𝐧 𝟏.𝟎 \e[0m"
