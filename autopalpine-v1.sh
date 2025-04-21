@@ -20,18 +20,21 @@ check_internet() {
 # Appel de la fonction pour vérifier la connectivité Internet
 check_internet
 
-# Fonction pour récupérer le système d'exploitation
-get_system_info() {
+# Fonction pour détecter le système d'exploitation
+detect_os() {
     if [ -f /etc/os-release ]; then
-        # Utilisation du fichier os-release pour identifier le système
-        system_name=$(grep ^NAME= /etc/os-release | cut -d= -f2 | tr -d '"')
-        echo "Système détecté : $system_name"
+        # Lecture du fichier os-release pour identifier le système
+        os_name=$(grep ^ID= /etc/os-release | cut -d= -f2 | tr -d '"')
+        echo "$os_name"
     else
         # Si os-release n'existe pas, fallback sur uname
-        system_name=$(uname -s)
-        echo "Système détecté (uname) : $system_name"
+        os_name=$(uname -s | tr '[:upper:]' '[:lower:]')
+        echo "$os_name"
     fi
 }
+
+# Détection du système actuel
+system_detected=$(detect_os)
 
 # Appel de la fonction
 get_system_info
@@ -47,7 +50,9 @@ echo "2. Ubuntu"
 echo "3. Debian"
 echo "4. CentOS"
 read -p "Choisissez un numéro :" number
-if [ "$number" = "1" ]; then
+
+if [ "$number" = "1" ] && [[ "${system_detected,,}" == *alpine* ]]; then
+    echo -e "\e[32m✅ Le système détecté est bien Alpine Linux.\e[0m"
     read -p "𝐕𝐨𝐮𝐬 voulez que l'installation 𝐝𝐞𝐬 𝐦𝐢𝐬𝐞𝐬 𝐚̀ 𝐣𝐨𝐮𝐫 𝐜𝐨𝐦𝐦𝐞𝐧𝐜𝐞 ? Tapez 𝐎 pour 𝐎𝐮𝐢 et 𝐍 pour 𝐍𝐨𝐧 : " response
     
     # Vérification de la réponse
@@ -68,4 +73,7 @@ if [ "$number" = "1" ]; then
         echo -e "\e[31m❌ Réponse non valide. Veuillez taper 𝐎 ou 𝐍.\e[0m"
         exit 1
     fi
+else
+            echo -e "\e[31m❌ Le système détecté n'est pas Alpine Linux. Système actuel : $system_detected.\e[0m"
+            exit 1
 fi
