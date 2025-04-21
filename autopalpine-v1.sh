@@ -4,6 +4,19 @@
 THRESHOLD_MEMORY=80  # Seuil critique de la mémoire (en pourcentage)
 THRESHOLD_SPACE=80  # Seuil critique d'espace disque (en pourcentage)
 
+# Fonction pour vérifier la connectivité Internet
+check_internet() {
+    echo -e "\e[34m🌐 Vérification de la connexion Internet...\e[0m"
+    wget -q --spider http://google.com
+    if [ $? -eq 0 ]; then
+        echo -e "\e[32m✅ Connexion Internet détectée.\e[0m"
+        return 0
+    else
+        echo -e "\e[31m❌ Aucune connexion Internet détectée. Veuillez vérifier votre réseau.\e[0m"
+        return 1
+    fi
+}
+
 # 1. Mettre à jour le système (exemple pour Alpine)
 echo -e "\e[35m===========================================\e[0m"
 echo -e "\e[35m🤖 𝐇𝐞𝐥𝐥𝐨 ! 𝐁𝐢𝐞𝐧𝐯𝐞𝐧𝐮𝐞 𝐬𝐮𝐫 𝐯𝐨𝐭𝐫𝐞 𝐚𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭 𝐚𝐮𝐭𝐨𝐩𝐚𝐥𝐩𝐢𝐧𝐞 𝐕𝐞𝐫𝐬𝐢𝐨𝐧 𝟏.𝟎 \e[0m"
