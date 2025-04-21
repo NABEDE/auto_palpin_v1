@@ -60,6 +60,15 @@ if [ "$number" = "1" ] && [[ "${system_detected,,}" == *alpine* ]]; then
             echo -e "\e[33m✅ Mises à jour disponibles. Lancement de l'upgrade...\e[0m"
             apk upgrade -y > /dev/null 2>&1
             echo -e "\e[32m✅ Mises à jour terminées avec succès.\e[0m"
+            read -p "Est ce que vous voulez que j'installe les paquets de sécurité sur le système ? Tapez 𝐎 pour 𝐎𝐮𝐢 et 𝐍 pour 𝐍𝐨𝐧 : " reponse_autre
+            if [ "$response_autre" == "O" ] || [ "$response_autre" == "o" ]; then
+                echo -e "\e[33m✅ Ajout de quelques paquets de sécurité du système en cours ...\e[0m"
+                echo -e "\e[33m Installation de Iptabales ...\e[0m"
+                apk add iptables
+                echo -e "\e[32m✅ Installation terminée \e[0m"
+            elif [ "$response_autre" == "N" ] || [ "$response_autre" == "n" ]; then
+                echo -e "\e[31m❌ Mise à jour 𝐚𝐧𝐧𝐮𝐥𝐞́𝐞.\e[0m"
+                exit 0
         else
             echo -e "\e[31m❌ Échec de la mise à jour. Vérifiez 𝐥𝐞𝐬 𝐞𝐫𝐫𝐞𝐮𝐫𝐬.\e[0m"
         fi
