@@ -76,9 +76,35 @@ if [ "$number" = "1" ] && [[ "${system_detected,,}" == *alpine* ]]; then
                         apk add clamav clamav-libunrar
                         if [ $? -eq 0 ]; then
                             echo -e "\e[32m✅ Installation de clamav & clamav-libunrar réussi ...\e[0m"
-                            echo -
+                            echo -e "\e[32m Mise à jour des signatures de clamav & clamav-libunrar \e[0m"
+                            freshclam  # Mise à jour des signatures
+                            if [ $? -eq 0 ]; then
+                                echo -e "\e[32m✅ Mise à jour réussie ...\e[0m"
+                                echo -e "\e[33m Installation d'un firewall qu'on appelle ufw \e[0m"
+                                apk add ufw
+                                if [ $? -eq 0 ]; then
+                                    echo -e "\e[32m✅ Installation du firewall ufw réussie ...\e[0m"
+                                    echo -e "\e[33m Activation du firewall ufw \e[0m"
+                                    ufw enable  # Active le firewall 
+                                    if [ $? -eq 0 ]; then
+                                        echo -e "\e[32m✅ Activation du firewall ufw réussie ...\e[0m"
+                                    else
+                                        echo -e "\e[31m❌ Activation du firewall échoué, vérifiez votre connexion internet \e[0m"
+                                        exit 0
+                                    fi
+                                else
+                                    echo -e "\e[31m❌ Échec de l'installation du firewall ufw \e[0m"
+                                    exit 0
+                                fi
+                            else
+                                echo -e "\e[31m❌ Échec de la mise à jour \e[0"
+                                exit 0
+                            else
+                                echo -e "\e[31m❌ Mise à jour échoué, vérifiez votre connexion internet...\e[0m"
+                                exit 0
                         else
-                            echo -e "\e[31m❌ Échec de l'installation de clamav & clamav-libunrar ...\e[0m"
+                            echo -e "\e[31m❌ Échec de l'installation de clamav & clamav-libunrar, vérifierz votre connexion internet...\e[0m"
+                            exit 0
                         fi
                     else
                         echo -e "\e[31m❌ Échec de l'activation de fail2ban, vérifier votre connexion internet ...\e[0m"
@@ -93,6 +119,7 @@ if [ "$number" = "1" ] && [[ "${system_detected,,}" == *alpine* ]]; then
                 exit 0
             else
                 echo -e "\e[31m❌ Échec de la mise à jour. Vérifiez 𝐥𝐞𝐬 𝐞𝐫𝐫𝐞𝐮𝐫𝐬.\e[0m"
+                exit 0
             fi
         elif [ "$response" == "N" ] || [ "$response" == "n" ]; then
             echo -e "\e[31m❌ Mise à jour 𝐚𝐧𝐧𝐮𝐥𝐞́𝐞.\e[0m"
