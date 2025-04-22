@@ -72,22 +72,14 @@ if [ "$number" = "1" ] && [[ "${system_detected,,}" == *alpine* ]]; then
                     rc-service fail2ban start
                     if [ $? -eq 0 ]; then
                         echo -e "\e[32m✅ Activation de fail2ban réussi ...\e[0m"
-                        read -p "Est ce que vous voulez continuer l'installation des paquets de sécurité ? O pour oui et N pour Non : " response_continue
-                        if [ "$response_continue" == "O" ] || [ "$response_continue" == "o" ]; then
-                            echo -e "\e[33m Installation de clamav accompagné de clamav-libunrar ...\e[0m"
-                            apk add clamav clamav-libunrar
-                            if [ $? -eq 0 ]; then
-                                echo -e "\e[32m✅ Installation de clamav & clamav-libunrar réussi ...\e[0m"
-                            else
-                            fi
-                        elif [ "$response_continue" == "N" ] || [ "$response_continue" == "n" ]; then
-                            echo -e "\e[31m❌ Annulation de l'installation du paquet suivant ...\e[0m"
-                            exit 0
+                        echo -e "\e[33m Installation de clamav accompagné de clamav-libunrar ...\e[0m"
+                        apk add clamav clamav-libunrar
+                        if [ $? -eq 0 ]; then
+                            echo -e "\e[32m✅ Installation de clamav & clamav-libunrar réussi ...\e[0m"
+                            echo -
                         else
-                            echo -e "\e[31m❌ Erreur, taper O pour Oui et N pour Non ...\e[0m"
-                            exit 0
+                            echo -e "\e[31m❌ Échec de l'installation de clamav & clamav-libunrar ...\e[0m"
                         fi
-                        
                     else
                         echo -e "\e[31m❌ Échec de l'activation de fail2ban, vérifier votre connexion internet ...\e[0m"
                         exit 0
