@@ -52,7 +52,6 @@ if [ "$number" = "1" ] && [[ "${system_detected,,}" == *alpine* ]]; then
     echo -e "\e[32m✅ Le système détecté est bien Alpine Linux.\e[0m"
     read -p "𝐕𝐨𝐮𝐬 voulez que l'installation 𝐝𝐞𝐬 𝐦𝐢𝐬𝐞𝐬 𝐚̀ 𝐣𝐨𝐮𝐫 𝐜𝐨𝐦𝐦𝐞𝐧𝐜𝐞 ? Tapez 𝐎 pour 𝐎𝐮𝐢 et 𝐍 pour 𝐍𝐨𝐧 : " response
     
-    # Vérification de la réponse
     if [ "$response" == "O" ] || [ "$response" == "o" ]; then
         echo -e "\e[33m✅ 𝐌𝐢𝐬𝐞 𝐚̀ 𝐣𝐨𝐮𝐫 𝐝𝐮 𝐬𝐲𝐬𝐭𝐞̀𝐦𝐞 𝐞𝐧 𝐜𝐨𝐮𝐫𝐬...\e[0m"
         apk update > /dev/null 2>&1
@@ -60,15 +59,17 @@ if [ "$number" = "1" ] && [[ "${system_detected,,}" == *alpine* ]]; then
             echo -e "\e[33m✅ Mises à jour disponibles. Lancement de l'upgrade...\e[0m"
             apk upgrade -y > /dev/null 2>&1
             echo -e "\e[32m✅ Mises à jour terminées avec succès.\e[0m"
-            read -p "Est ce que vous voulez que j'installe les paquets de sécurité sur le système ? Tapez 𝐎 pour 𝐎𝐮𝐢 et 𝐍 pour 𝐍𝐨𝐧 : " reponse_autre
+            read -p "Est ce que vous voulez que j'installe les paquets de sécurité sur le système ? Tapez 𝐎 pour 𝐎𝐮𝐢 et 𝐍 pour 𝐍𝐨𝐧 : " response_autre
             if [ "$response_autre" == "O" ] || [ "$response_autre" == "o" ]; then
                 echo -e "\e[33m✅ Ajout de quelques paquets de sécurité du système en cours ...\e[0m"
                 echo -e "\e[33m Installation de fail2ban ...\e[0m"
                 apk add fail2ban
-                # Vérification du succès de l'installation
                 if [ $? -eq 0 ]; then
                     echo -e "\e[32m✅ Installation de fail2ban réussie\e[0m"
                     echo -e "\e[33m Activation de fail2ban ...\e[0m"
+                    # Ajouter fail2ban au démarrage
+                    rc-update add fail2ban default
+                    # Démarrer le service fail2ban
                     rc-service fail2ban start
                     if [ $? -eq 0 ]; then
                         echo -e "\e[32m✅ Activation de fail2ban réussi ...\e[0m"
@@ -77,7 +78,7 @@ if [ "$number" = "1" ] && [[ "${system_detected,,}" == *alpine* ]]; then
                         if [ $? -eq 0 ]; then
                             echo -e "\e[32m✅ Installation de clamav & clamav-libunrar réussi ...\e[0m"
                             echo -e "\e[32m Mise à jour des signatures de clamav & clamav-libunrar \e[0m"
-                            freshclam  # Mise à jour des signatures
+                            freshclam
                             if [ $? -eq 0 ]; then
                                 echo -e "\e[32m✅ Mise à jour réussie ...\e[0m"
                                 echo -e "\e[33m Installation d'un firewall qu'on appelle ufw \e[0m"
@@ -85,50 +86,52 @@ if [ "$number" = "1" ] && [[ "${system_detected,,}" == *alpine* ]]; then
                                 if [ $? -eq 0 ]; then
                                     echo -e "\e[32m✅ Installation du firewall ufw réussie ...\e[0m"
                                     echo -e "\e[33m Activation du firewall ufw \e[0m"
-                                    ufw enable  # Active le firewall 
+                                    ufw enable
                                     if [ $? -eq 0 ]; then
                                         echo -e "\e[32m✅ Activation du firewall ufw réussie ...\e[0m"
                                     else
                                         echo -e "\e[31m❌ Activation du firewall échoué, vérifiez votre connexion internet \e[0m"
-                                        exit 0
+                                        exit 1
                                     fi
                                 else
                                     echo -e "\e[31m❌ Échec de l'installation du firewall ufw \e[0m"
-                                    exit 0
+                                    exit 1
                                 fi
                             else
-                                echo -e "\e[31m❌ Échec de la mise à jour \e[0"
-                                exit 0
-                            else
-                                echo -e "\e[31m❌ Mise à jour échoué, vérifiez votre connexion internet...\e[0m"
-                                exit 0
+                                echo -e "\e[31m❌ Échec de la mise à jour \e[0m"
+                                exit 1
+                            fi
                         else
-                            echo -e "\e[31m❌ Échec de l'installation de clamav & clamav-libunrar, vérifierz votre connexion internet...\e[0m"
-                            exit 0
+                            echo -e "\e[31m❌ Échec de l'installation de clamav & clamav-libunrar, vérifiez votre connexion internet...\e[0m"
+                            exit 1
                         fi
                     else
                         echo -e "\e[31m❌ Échec de l'activation de fail2ban, vérifier votre connexion internet ...\e[0m"
-                        exit 0
+                        exit 1
                     fi
                 else
                     echo -e "\e[31m❌ Échec de l'installation de fail2ban\e[0m"
-                    exit 0
+                    exit 1
                 fi
             elif [ "$response_autre" == "N" ] || [ "$response_autre" == "n" ]; then
                 echo -e "\e[31m❌ Mise à jour 𝐚𝐧𝐧𝐮𝐥𝐞́𝐞.\e[0m"
                 exit 0
             else
-                echo -e "\e[31m❌ Échec de la mise à jour. Vérifiez 𝐥𝐞𝐬 𝐞𝐫𝐫𝐞𝐮𝐫𝐬.\e[0m"
-                exit 0
+                echo -e "\e[31m❌ Réponse non valide. Veuillez taper 𝐎 ou 𝐍.\e[0m"
+                exit 1
             fi
-        elif [ "$response" == "N" ] || [ "$response" == "n" ]; then
-            echo -e "\e[31m❌ Mise à jour 𝐚𝐧𝐧𝐮𝐥𝐞́𝐞.\e[0m"
-            exit 0
         else
-            echo -e "\e[31m❌ Réponse non valide. Veuillez taper 𝐎 ou 𝐍.\e[0m"
+            echo -e "\e[31m❌ Échec de la mise à jour. Vérifiez 𝐥𝐞𝐬 𝐞𝐫𝐫𝐞𝐮𝐫𝐬.\e[0m"
             exit 1
         fi
+    elif [ "$response" == "N" ] || [ "$response" == "n" ]; then
+        echo -e "\e[31m❌ Mise à jour 𝐚𝐧𝐧𝐮𝐥𝐞́𝐞.\e[0m"
+        exit 0
     else
-            echo -e "\e[31m❌ Le système détecté n'est pas Alpine Linux. Système actuel : $system_detected.\e[0m"
-            exit 1
+        echo -e "\e[31m❌ Réponse non valide. Veuillez taper 𝐎 ou 𝐍.\e[0m"
+        exit 1
+    fi
+else
+    echo -e "\e[31m❌ Le système détecté n'est pas Alpine Linux. Système actuel : $system_detected.\e[0m"
+    exit 1
 fi
