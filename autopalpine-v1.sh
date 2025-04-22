@@ -63,23 +63,53 @@ if [ "$number" = "1" ] && [[ "${system_detected,,}" == *alpine* ]]; then
             read -p "Est ce que vous voulez que j'installe les paquets de sécurité sur le système ? Tapez 𝐎 pour 𝐎𝐮𝐢 et 𝐍 pour 𝐍𝐨𝐧 : " reponse_autre
             if [ "$response_autre" == "O" ] || [ "$response_autre" == "o" ]; then
                 echo -e "\e[33m✅ Ajout de quelques paquets de sécurité du système en cours ...\e[0m"
-                echo -e "\e[33m Installation de Iptabales ...\e[0m"
-                apk add iptables
-                echo -e "\e[32m✅ Installation terminée \e[0m"
+                echo -e "\e[33m Installation de fail2ban ...\e[0m"
+                apk add fail2ban
+                # Vérification du succès de l'installation
+                if [ $? -eq 0 ]; then
+                    echo -e "\e[32m✅ Installation de fail2ban réussie\e[0m"
+                    echo -e "\e[33m Activation de fail2ban ...\e[0m"
+                    rc-service fail2ban start
+                    if [ $? -eq 0 ]; then
+                        echo -e "\e[32m✅ Activation de fail2ban réussi ...\e[0m"
+                        read -p "Est ce que vous voulez continuer l'installation des paquets de sécurité ? O pour oui et N pour Non : " response_continue
+                        if [ "$response_continue" == "O" ] || [ "$response_continue" == "o" ]; then
+                            echo -e "\e[33m Installation de clamav accompagné de clamav-libunrar ...\e[0m"
+                            apk add clamav clamav-libunrar
+                            if [ $? -eq 0 ]; then
+                                echo -e "\e[32m✅ Installation de clamav & clamav-libunrar réussi ...\e[0m"
+                            else
+                            fi
+                        elif [ "$response_continue" == "N" ] || [ "$response_continue" == "n" ]; then
+                            echo -e "\e[31m❌ Annulation de l'installation du paquet suivant ...\e[0m"
+                            exit 0
+                        else
+                            echo -e "\e[31m❌ Erreur, taper O pour Oui et N pour Non ...\e[0m"
+                            exit 0
+                        fi
+                        
+                    else
+                        echo -e "\e[31m❌ Échec de l'activation de fail2ban, vérifier votre connexion internet ...\e[0m"
+                        exit 0
+                    fi
+                else
+                    echo -e "\e[31m❌ Échec de l'installation de fail2ban\e[0m"
+                    exit 0
+                fi
             elif [ "$response_autre" == "N" ] || [ "$response_autre" == "n" ]; then
                 echo -e "\e[31m❌ Mise à jour 𝐚𝐧𝐧𝐮𝐥𝐞́𝐞.\e[0m"
                 exit 0
+            else
+                echo -e "\e[31m❌ Échec de la mise à jour. Vérifiez 𝐥𝐞𝐬 𝐞𝐫𝐫𝐞𝐮𝐫𝐬.\e[0m"
+            fi
+        elif [ "$response" == "N" ] || [ "$response" == "n" ]; then
+            echo -e "\e[31m❌ Mise à jour 𝐚𝐧𝐧𝐮𝐥𝐞́𝐞.\e[0m"
+            exit 0
         else
-            echo -e "\e[31m❌ Échec de la mise à jour. Vérifiez 𝐥𝐞𝐬 𝐞𝐫𝐫𝐞𝐮𝐫𝐬.\e[0m"
+            echo -e "\e[31m❌ Réponse non valide. Veuillez taper 𝐎 ou 𝐍.\e[0m"
+            exit 1
         fi
-    elif [ "$response" == "N" ] || [ "$response" == "n" ]; then
-        echo -e "\e[31m❌ Mise à jour 𝐚𝐧𝐧𝐮𝐥𝐞́𝐞.\e[0m"
-        exit 0
     else
-        echo -e "\e[31m❌ Réponse non valide. Veuillez taper 𝐎 ou 𝐍.\e[0m"
-        exit 1
-    fi
-else
             echo -e "\e[31m❌ Le système détecté n'est pas Alpine Linux. Système actuel : $system_detected.\e[0m"
             exit 1
 fi
