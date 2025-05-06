@@ -4,6 +4,9 @@
 THRESHOLD_MEMORY=80  # Seuil critique de la mémoire (en pourcentage)
 THRESHOLD_SPACE=80  # Seuil critique d'espace disque (en pourcentage)
 
+# Arrêter à la moindre erreur
+set -e
+
 # Fonction pour vérifier la connectivité Internet
 check_internet() {
     echo -e "\e[34m🌐 Vérification de la connexion Internet...\e[0m"
@@ -19,6 +22,15 @@ check_internet() {
 
 # Appel de la fonction pour vérifier la connectivité Internet
 check_internet
+
+check_success() {
+    if [ $? -eq 0 ]; then
+        echo -e "\e[32m✅ $1 réussi.\e[0m"
+    else
+        echo -e "\e[31m❌ $1 échoué. Vérifiez votre connexion internet.\e[0m"
+        exit 1
+    fi
+}
 
 # Fonction pour détecter le système d'exploitation
 detect_os() {
@@ -158,15 +170,99 @@ case $number in
         exit 1
     fi
     ;;
-2)
+2) if [[ "$system_detected" == *ubuntu* ]]; then
     echo -e "\e[32m✅ Le système détecté est Ubuntu.\e[0m"
-    # Ajoutez ici le code pour installer et configurer fail2ban sur Ubuntu
-    ;;
+    
+    read -p "Voulez-vous mettre à jour le système ? (O/N) " response
+    if [[ "$response" =~ ^[Oo]$ ]]; then
+        echo -e "\e[33m🔄 Mise à jour du système en cours...\e[0m"
+        sudo apt update -y > /dev/null 2>&1
+        sudo apt upgrade -y > /dev/null 2>&1
+        check_success "Mise à jour du système"
+        
+        read -p "Voulez-vous installer les paquets de sécurité ? (O/N) " response_security
+        if [[ "$response_security" =~ ^[Oo]$ ]]; then
+            echo -e "\e[33m🔐 Installation des paquets de sécurité...\e[0m"
+            
+            sudo apt install -y fail2ban clamav clamav-freshclam ufw unattended-upgrades > /dev/null 2>&1
+            check_success "Installation des paquets de sécurité"
+            
+            echo -e "\e[33m⚙️ Configuration de fail2ban...\e[0m"
+            sudo systemctl enable fail2ban
+            sudo systemctl start fail2ban
+            check_success "Activation de fail2ban"
+
+            echo -e "\e[33m📥 Mise à jour des signatures ClamAV...\e[0m"
+            sudo freshclam > /dev/null 2>&1
+            check_success "Mise à jour des signatures ClamAV"
+
+            echo -e "\e[33m🔧 Activation des mises à jour automatiques...\e[0m"
+            sudo dpkg-reconfigure -plow unattended-upgrades > /dev/null 2>&1
+            check_success "Configuration de unattended-upgrades"
+
+            echo -e "\e[33m🔒 Activation du pare-feu UFW...\e[0m"
+            sudo ufw enable > /dev/null 2>&1
+            check_success "Activation du pare-feu UFW"
+
+        else
+            echo -e "\e[33mℹ️ Installation des paquets de sécurité annulée.\e[0m"
+        fi
+    else
+        echo -e "\e[33mℹ️ Mise à jour du système annulée.\e[0m"
+    fi
+else
+    echo -e "\e[31m❌ Le système détecté n'est pas Ubuntu. Système actuel : $system_detected\e[0m"
+    exit 1
+fi
+;;
 
 3)
+    if [[ "$system_detected" == *debian* ]]; then
     echo -e "\e[32m✅ Le système détecté est Debian.\e[0m"
-    # Ajoutez ici le code pour installer et configurer fail2ban sur Debian
-    ;;
+    
+    read -p "Voulez-vous mettre à jour le système ? (O/N) " response
+    if [[ "$response" =~ ^[Oo]$ ]]; then
+        echo -e "\e[33m🔄 Mise à jour du système en cours...\e[0m"
+        sudo apt update -y > /dev/null 2>&1
+        sudo apt upgrade -y > /dev/null 2>&1
+        check_success "Mise à jour du système"
+        
+        read -p "Voulez-vous installer les paquets de sécurité ? (O/N) " response_security
+        if [[ "$response_security" =~ ^[Oo]$ ]]; then
+            echo -e "\e[33m🔐 Installation des paquets de sécurité...\e[0m"
+            
+            sudo apt install -y fail2ban clamav clamav-freshclam ufw unattended-upgrades > /dev/null 2>&1
+            check_success "Installation des paquets de sécurité"
+            
+            echo -e "\e[33m⚙️ Configuration de fail2ban...\e[0m"
+            sudo systemctl enable fail2ban
+            sudo systemctl start fail2ban
+            check_success "Activation de fail2ban"
+
+            echo -e "\e[33m📥 Mise à jour des signatures ClamAV...\e[0m"
+            sudo freshclam > /dev/null 2>&1
+            check_success "Mise à jour des signatures ClamAV"
+
+            echo -e "\e[33m🔧 Activation des mises à jour automatiques...\e[0m"
+            sudo dpkg-reconfigure -plow unattended-upgrades > /dev/null 2>&1
+            check_success "Configuration de unattended-upgrades"
+
+            echo -e "\e[33m🔒 Activation du pare-feu UFW...\e[0m"
+            sudo ufw enable > /dev/null 2>&1
+            check_success "Activation du pare-feu UFW"
+
+        else
+            echo -e "\e[33mℹ️ Installation des paquets de sécurité annulée.\e[0m"
+        fi
+    else
+        echo -e "\e[33mℹ️ Mise à jour du système annulée.\e[0m"
+    fi
+else
+    echo -e "\e[31m❌ Le système détecté n'est pas Debian. Système actuel : $system_detected\e[0m"
+    exit 1
+fi
+;;
+
 4)
     echo -e "\e[32m✅ Le système détecté est CentOS.\e[0m"
     # Ajoutez ici le code pour installer et configurer fail2ban sur CentOS
