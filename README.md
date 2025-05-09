@@ -1,25 +1,23 @@
 # Script d'Automatisation Système
 
-Ce script bash automatise diverses tâches de maintenance notament la mise à jour du système Linux Alpine.
-## Fonctionnalités
+Ce script bash automatise diverses tâches de maintenance notament la mise à jour du système Linux qui vous avez à votre porté.
 
-- Automatisation des mises à jour système (pour les systèmes Alpine ou les systèmes qui sont basé sur ça)
-- Surveillance de l'espace disque
-- Surveillance de l'utilisation de la mémoire
-- Gestion des fichiers journaux
-- Surveillance de la charge CPU
-- Notifications par email pour tous les événements majeurs
+## Fonctionnalité principale
+
+Mis à jour automatique des systèmes Linux ( Alpine, Debian, Ubuntu et CentOS) et installation automatique des paquets pour la sécurité de ces systèmes.
+Les principaux paquets tels que : ufw, fail2ban et clamav.
 
 ## Prérequis
 
-- Un système d'exploitation de type Linux Alpine
-- Avec l'utilisation de apk
-- Sous le privilège sudo
+- Avoir un système Linux installer sur la machine ou le     serveur.
+- Avoir le bash déjà installer sur le système.
+- Savoir comment exécuter un script bash sur un système Linux.
+- Savoir comment manipuler un terminal d'un système Linux.
 
 ## Étapes pour mettre en place l'automatisation
-- Téléchargez le fichier "autopalpine-v1.sh" ou soit tout le dépôt git avec le contenu
-- Navigez jusqu'au fichier "autopalpine-v1.sh"
-- Assurez vous que la commande "bash" fonctionne dans votre terminal
+- Téléchargez le fichier "autopalpine-v1.sh" ou soit tout le dépôt git avec le contenu.
+- Navigez jusqu'au fichier "autopalpine-v1.sh".
+- Assurez vous que la commande "bash" fonctionne dans votre terminal du système Linux.
 - Tapez "bash auto_palpine.sh"
 - Ou soit tapez "chmod +x autopalpine-v1.sh"
 - Ensuite tapez "./autopalpine-v1.sh"
