@@ -19,16 +19,23 @@ check_internet() {
     fi
 }
 
-# Fonction pour vérifier le succès d'une commande
 check_success() {
-    if [ $? -eq 0 ]; then
-        echo -e "\e[32m✅ $1 réussi.\e[0m"
+    local status=$?
+    local message="$1"
+    local tolerate_failure="$2"  # peut être "true" ou vide
+
+    if [ $status -eq 0 ]; then
+        echo -e "\e[32m✅ $message réussi.\e[0m"
     else
-        echo -e "\e[31m❌ $1 échoué. Vérifiez les erreurs et votre connexion internet.\e[0m"
-        # Consider if exit 1 is always appropriate here or should be handled by the caller
-        exit 1 
+        if [ "$tolerate_failure" = "true" ]; then
+            echo -e "\e[33m⚠️ $message partiellement échoué, mais on continue...\e[0m"
+        else
+            echo -e "\e[31m❌ $message échoué. Vérifiez les erreurs et votre connexion internet.\e[0m"
+            exit 1
+        fi
     fi
 }
+
 
 # Fonction pour détecter le système d'exploitation
 detect_os() {
