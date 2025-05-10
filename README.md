@@ -1,25 +1,63 @@
 # Script d'Automatisation Système
 
-Ce script bash automatise diverses tâches de maintenance notament la mise à jour du système Linux qui vous avez à votre porté.
+Ce script bash automatise diverses tâches de maintenance notamment la mise à jour du système Linux Alpine.
 
-## Fonctionnalité principale
+## Table des Matières
 
-Mis à jour automatique des systèmes Linux ( Alpine, Debian, Ubuntu et CentOS) et installation automatique des paquets pour la sécurité de ces systèmes.
-Les principaux paquets tels que : ufw, fail2ban et clamav.
+- [Fonctionnalités](#fonctionnalités)
+- [Prérequis (Exécution directe)](#prérequis-exécution-directe)
+- [Utilisation (Exécution directe)](#utilisation-exécution-directe)
+- [Utilisation (Avec Docker)](#utilisation-avec-docker)
+  - [Prérequis (Docker)](#prérequis-docker)
+  - [Étapes (Docker)](#étapes-docker)
 
-## Prérequis
+## Fonctionnalités
 
-- Avoir un système Linux installer sur la machine ou le     serveur.
-- Avoir le bash déjà installer sur le système.
-- Savoir comment exécuter un script bash sur un système Linux.
-- Savoir comment manipuler un terminal d'un système Linux.
+- Automatisation des mises à jour des systèmes Linux ( Alpine, Debian, Ubuntu et CentOS)
+- Installation optionnelle de paquets de sécurité (fail2ban, clamav, ufw)
+- Vérification de la connectivité Internet
+- Détection du système d'exploitation (actuellement focus sur Alpine)
+- Menu interactif pour choisir l'action
 
-## Étapes pour mettre en place l'automatisation
-- Téléchargez le fichier "autopalpine-v1.sh" ou soit tout le dépôt git avec le contenu.
-- Navigez jusqu'au fichier "autopalpine-v1.sh".
-- Assurez vous que la commande "bash" fonctionne dans votre terminal du système Linux.
-- Tapez "bash auto_palpine.sh"
-- Ou soit tapez "chmod +x autopalpine-v1.sh"
-- Ensuite tapez "./autopalpine-v1.sh"
-- Vous avez votre automatisation de mise à jour clair.
+## Prérequis (Exécution directe)
 
+- Un système d'exploitation Linux
+- Accès à Internet
+- `bash` installé
+- Privilèges `root` ou `sudo` pour l'installation des paquets et la gestion des services.
+
+## Utilisation (Exécution directe)
+
+1.  Téléchargez le script `autopalpine-v1.sh`.
+2.  Rendez le script exécutable :
+    ```bash
+    chmod +x autopalpine-v1.sh
+    ```
+3.  Exécutez le script :
+    ```bash
+    sudo ./autopalpine-v1.sh
+    ```
+4.  Suivez les instructions interactives.
+
+## Utilisation (Avec Docker)
+
+Vous pouvez également exécuter ce script dans un environnement conteneurisé en utilisant Docker et Docker Compose.
+Cela est particulièrement utilise si vous développez sur un autre OS.
+
+### Prérequis (Docker)
+
+- Docker Desktop (ou Docker Engine + Docker Compose) installé et en cours d'exécution.
+
+### Étapes (Docker)
+
+1.  Clonez ce dépôt ou assurez-vous d'avoir les fichiers `autopalpine-v1.sh`, `Dockerfile`, et `docker-compose.yml` dans le même répertoire.
+2.  Ouvrez un terminal dans ce répertoire.
+3.  Construisez l'image Docker :
+    ```bash
+    docker-compose build
+    ```
+4.  Exécutez le script de manière interactive dans un conteneur :
+    ```bash
+    docker-compose run --rm alpine-test
+    ```
+5.  Le script démarrera dans le terminal, et vous pourrez interagir avec lui.
