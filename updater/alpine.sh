@@ -9,38 +9,38 @@ update_alpine() {
 
     if prompt_yes_no "𝐕𝐨𝐮𝐬 voulez que l'installation 𝐝𝐞𝐬 𝐦𝐢𝐬𝐞𝐬 𝐚̀ 𝐣𝐨𝐮𝐫 𝐜𝐨𝐦𝐦𝐞𝐧𝐜𝐞 ?"; then
         echo -e "\e[33m✅ 𝐌𝐢𝐬𝐞 𝐚̀ 𝐣𝐨𝐮𝐫 𝐝𝐮 𝐬𝐲𝐬𝐭𝐞̀𝐦𝐞 𝐞𝐧 𝐜𝐨𝐮𝐫𝐬...\e[0m"
-        apk update > /dev/null 2>&1
+        apk update
         if [ $? -eq 0 ]; then
             echo -e "\e[33m✅ Mises à jour disponibles. Lancement de l'upgrade...\e[0m"
-            apk upgrade -y > /dev/null 2>&1
+            apk upgrade -y
             check_success "Mise à jour du système"
 
             if prompt_yes_no "Est ce que vous voulez que j'installe les paquets de sécurité sur le système ?"; then
                 echo -e "\e[33m🔐 Installation des paquets de sécurité...\e[0m"
                 
                 echo -e "\e[33m Installation de fail2ban ...\e[0m"
-                apk add fail2ban > /dev/null 2>&1
+                apk add fail2ban
                 check_success "Installation de fail2ban"
                 
                 echo -e "\e[33m Installation de OpenRC pour la gestion des services...\e[0m"
-                apk add openrc > /dev/null 2>&1
+                apk add openrc
                 check_success "Installation de OpenRC"
                 
                 echo -e "\e[33m⚙️ Configuration et activation de fail2ban...\e[0m"
-                rc-update add fail2ban default > /dev/null 2>&1
-                rc-service fail2ban start > /dev/null 2>&1
+                rc-update add fail2ban default
+                rc-service fail2ban start
                 check_success "Activation de fail2ban"
                 
                 echo -e "\e[33m Installation de clamav accompagné de clamav-libunrar ...\e[0m"
-                apk add clamav clamav-libunrar > /dev/null 2>&1
+                apk add clamav clamav-libunrar
                 check_success "Installation de clamav & clamav-libunrar"
                 
                 echo -e "\e[33m📥 Mise à jour des signatures de clamav & clamav-libunrar \e[0m"
-                freshclam > /dev/null 2>&1
+                freshclam
                 check_success "Mise à jour des signatures ClamAV"
                 
                 echo -e "\e[33m Installation d'un firewall qu'on appelle ufw \e[0m"
-                apk add ufw > /dev/null 2>&1
+                apk add ufw
                 check_success "Installation du firewall ufw"
                 
                 echo -e "\e[33m🔒 Activation du firewall ufw \e[0m"
