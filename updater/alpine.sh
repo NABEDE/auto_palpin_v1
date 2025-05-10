@@ -12,7 +12,7 @@ update_alpine() {
         apk update
         if [ $? -eq 0 ]; then
             echo -e "\e[33m✅ Mises à jour disponibles. Lancement de l'upgrade...\e[0m"
-            apk upgrade -y
+            apk upgrade
             check_success "Mise à jour du système"
 
             if prompt_yes_no "Est ce que vous voulez que j'installe les paquets de sécurité sur le système ?"; then
