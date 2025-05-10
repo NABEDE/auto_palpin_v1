@@ -13,7 +13,7 @@ Ce script bash automatise diverses tâches de maintenance notamment la mise à j
 
 ## Fonctionnalités
 
-- Automatisation des mises à jour système (pour les systèmes Alpine ou les systèmes qui sont basé sur ça)
+- Automatisation des mises à jour des systèmes Linux ( Alpine, Debian, Ubuntu et CentOS)
 - Installation optionnelle de paquets de sécurité (fail2ban, clamav, ufw)
 - Vérification de la connectivité Internet
 - Détection du système d'exploitation (actuellement focus sur Alpine)
@@ -21,7 +21,7 @@ Ce script bash automatise diverses tâches de maintenance notamment la mise à j
 
 ## Prérequis (Exécution directe)
 
-- Un système d'exploitation de type Linux Alpine
+- Un système d'exploitation Linux
 - Accès à Internet
 - `bash` installé
 - Privilèges `root` ou `sudo` pour l'installation des paquets et la gestion des services.
@@ -41,7 +41,8 @@ Ce script bash automatise diverses tâches de maintenance notamment la mise à j
 
 ## Utilisation (Avec Docker)
 
-Vous pouvez également exécuter ce script dans un environnement conteneurisé Alpine Linux en utilisant Docker et Docker Compose, même si vous êtes sur un autre système d'exploitation (comme Windows ou macOS).
+Vous pouvez également exécuter ce script dans un environnement conteneurisé en utilisant Docker et Docker Compose.
+Cela est particulièrement utilise si vous développez sur un autre OS.
 
 ### Prérequis (Docker)
 
